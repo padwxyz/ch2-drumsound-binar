@@ -1,18 +1,7 @@
-// document.querySelector("button").addEventListener("click", () => handleClick("anjay"));
-
-// function handleClick(greeting) {
-//     alert(`hello cuy ${greeting}`)
-// }
-
-// handleClick();
-
-// console.log(document.querySelectorAll("button")[6])
-
-// array.length()
 let totalButton = document.querySelectorAll("button").length;
 
 function drumSound(key) {
-    switch(key) {
+    switch (key) {
         case "w":
             let tom1 = new Audio("sounds/tom-1.mp3");
             tom1.play();
@@ -41,18 +30,31 @@ function drumSound(key) {
             let snare = new Audio("sounds/snare.mp3");
             snare.play();
             break;
-    default:
+        default:
     }
-};
+}
 
-for(let i = 0; i < totalButton; i++){
-    document.querySelectorAll("button")[i].addEventListener("click", function() {
-         drumSound(this.innerHTML);
-    });
-};
+function buttonAnimation(key) {
+    let activeButton = document.querySelector("." + key);
 
-for(let i = 0; i < totalButton; i++){
-    document.querySelectorAll("button")[i].addEventListener("keypress", function(e) {
-         drumSound(e.key);
+    if (activeButton) {
+        activeButton.classList.add("pressed");
+
+        setTimeout(function () {
+            activeButton.classList.remove("pressed");
+        }, 2000);
+    }
+}
+
+for (let i = 0; i < totalButton; i++) {
+    document.querySelectorAll("button")[i].addEventListener("click", function () {
+        let buttonInnerHTML = this.innerHTML;
+        drumSound(buttonInnerHTML);
+        buttonAnimation(buttonInnerHTML);
     });
-};
+}
+
+document.addEventListener("keydown", function (event) {
+    drumSound(event.key);
+    buttonAnimation(event.key);
+});
